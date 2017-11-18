@@ -1,0 +1,7 @@
+cmake/print-config-debug.cmake
+cmake/print-config-release.cmake
+cmake/print-config.cmake
+include/print.hpp
+lib/libprint.a
+lib/libprintd.a
+licenses/print/LICENSE

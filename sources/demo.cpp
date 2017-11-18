@@ -15,6 +15,15 @@ void PrintFile(const std::string &path)
 	}
 }
 
+void ReadFile(po::options_description &desc,
+							po::variables_map& vm)
+{
+	std::ifstream configfile("~/.config/demo.cfg");
+	vm = po::variables_map();
+	po::store(po::parse_config_file(configfile, desc), vm);
+	po::notify(vm);
+}
+
 int main(int argc, char** argv)
 {
 	std::string pathfile;
@@ -24,7 +33,7 @@ int main(int argc, char** argv)
 			("output", po::value<std::string>(), "set name to logfile")
 			("variable", po::value<std::string>(&pathfile))
 			("name", po::value<std::string>(&name), "from config file")
-		;
+	;
 
 	po::variables_map vm;
 	std::string pathconf = std::getenv("HOME");
@@ -32,8 +41,12 @@ int main(int argc, char** argv)
 
 	std::ifstream configfile(pathconf);
 	po::store(po::parse_command_line(argc, argv, desc), vm);
-	po::store(po::parse_environment(desc, [](const std::string &env_var);
-		{return env_var == "DEMO_OUTPUT" ? "variable" : " "),vm);
+	po::store(po::parse_environment(desc,
+		[](const std::string &env_var)
+		{
+			return env_var == "DEMO_OUTPUT" ? "variable" : "";
+		}),
+		vm);
 	po::store(po::parse_config_file(configfile, desc), vm);
 	po::notify(vm);
 

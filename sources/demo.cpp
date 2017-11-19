@@ -1,9 +1,7 @@
 #include <print.hpp>
 #include <cstdlib>
-#include <boost/filesystem.hpp>
 #include <boost/program_options.hpp>
 
-using namespace boost::filesystem;
 namespace po = boost::program_options;
 
 void PrintFile(const std::string &path)
